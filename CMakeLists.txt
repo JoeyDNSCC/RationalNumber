@@ -4,6 +4,6 @@ project(rational)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(rational main.cpp
-        RationalNumber.cpp
-        RationalNumber.h
+        Rational.cpp
+        Rational.h
 )
