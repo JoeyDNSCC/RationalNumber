@@ -20,6 +20,9 @@ public:
     Rational operator*(Rational &rightObj);
     Rational operator/(Rational &rightObj);
 
+    Rational& operator=(Rational &rightObj);
+    Rational& operator+=(Rational &rightObj);
+
     bool operator<(Rational &rightObj);
     bool operator>(Rational &rightObj);
     bool operator==(Rational &rightObj);
@@ -27,7 +30,7 @@ public:
     friend std::ostream& operator<<(std::ostream& output, Rational& num);
 
     bool validateString(std::string str);
-    
+
 };
 
 

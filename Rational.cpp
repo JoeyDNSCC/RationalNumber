@@ -4,14 +4,15 @@
 
 #include "Rational.h"
 
+#include <regex>
 #include <stdexcept>
 
 
-Rational::Rational() = default;
+Rational::Rational()
+    :numerator(0), denominator(1) {}
 
 Rational::Rational(int num)
-    :numerator(num), denominator(1){
-}
+    :numerator(num), denominator(1) {}
 
 Rational::Rational(int num, int den)
     :numerator(num){
@@ -24,4 +25,11 @@ Rational::Rational(int num, int den)
 
 Rational::Rational(std::string str) {
 
+}
+
+bool validateString(const std::string& str) {
+    // allowed characters: -/1234567890
+    const std::regex pattern("[-/0-9]");
+
+    return std::regex_match(str, pattern);
 }
