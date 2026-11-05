@@ -13,7 +13,7 @@ public:
     Rational();
     Rational(int wholeNum);
     Rational(int num, int den);
-    Rational(std::string str);
+    Rational(const std::string& str);
 
     Rational operator+(Rational &rightObj);
     Rational operator-(Rational &rightObj);
@@ -29,7 +29,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& output, Rational& num);
 
-    bool validateString(std::string str);
+    static bool validateString(const std::string& str);
 
 };
 
