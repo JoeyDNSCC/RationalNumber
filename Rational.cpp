@@ -24,7 +24,16 @@ Rational::Rational(int num, int den)
 }
 
 Rational::Rational(std::string str) {
+    std::stringstream ss(str);
 
+    std::string num;
+    std::string den = "1"; //incase not provided
+
+    std::getline(ss, num, '/'); //grab everything until '/'
+    std::getline(ss, den);  // grab the rest
+
+    numerator = std::stoi(num);
+    denominator = std::stoi(den);
 }
 
 bool validateString(const std::string& str) {
