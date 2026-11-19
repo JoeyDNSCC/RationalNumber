@@ -130,3 +130,53 @@ Rational Rational::operator/(const Rational& rightObj) const {
     return {numTemp, denTemp};
 }
 
+bool Rational::operator<(Rational &rightObj) {
+    if (this->denominator != rightObj.denominator) {
+        this->numerator *= rightObj.denominator;
+        rightObj.numerator *= this->denominator;
+        this->denominator *= rightObj.denominator;
+        rightObj.denominator = this->denominator;
+    }
+    const bool isLesser = this->numerator < rightObj.numerator;
+
+    int gcd = std::__gcd(this->numerator,this->denominator);
+    this->numerator /= gcd;
+    this->denominator /= gcd;
+
+    gcd = std::__gcd(rightObj.numerator, rightObj.denominator);
+    rightObj.numerator /= gcd;
+    rightObj.denominator /= gcd;
+
+    return isLesser;
+}
+
+bool Rational::operator>(Rational &rightObj) {
+    if (this->denominator != rightObj.denominator) {
+        this->numerator *= rightObj.denominator;
+        rightObj.numerator *= this->denominator;
+        this->denominator *= rightObj.denominator;
+        rightObj.denominator = this->denominator;
+    }
+    const bool isGreater = this->numerator > rightObj.numerator;
+
+    int gcd = std::__gcd(this->numerator,this->denominator);
+    this->numerator /= gcd;
+    this->denominator /= gcd;
+
+    gcd = std::__gcd(rightObj.numerator, rightObj.denominator);
+    rightObj.numerator /= gcd;
+    rightObj.denominator /= gcd;
+
+    return isGreater;
+}
+
+bool Rational::operator==(const Rational &rightObj) const {
+    if (this->numerator * rightObj.denominator == this->denominator * rightObj.numerator) return true;
+    return false;
+}
+
+const std::ostream &operator<<(std::ostream &output, const Rational &num)
+{
+    output << num.numerator << " / " << num.denominator;
+    return output; //returns an ostream obj
+}
