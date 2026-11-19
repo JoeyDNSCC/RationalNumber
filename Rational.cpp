@@ -60,6 +60,7 @@ bool Rational::validateString(const std::string& str) {
 }
 
 Rational Rational::operator+(const Rational& rightObj) const {
+    std::cout << "BEGAN addition_operator" << std::endl;
     int numLeft = this->numerator;
     int numRight = rightObj.numerator;
     int denLeft = this->denominator;
@@ -77,10 +78,12 @@ Rational Rational::operator+(const Rational& rightObj) const {
     numLeft /= gcd;
     denLeft /= gcd;
 
+    std::cout << "COMPLETE addition_operator" << std::endl;
     return {numLeft,denLeft};
 }
 
 Rational Rational::operator-(const Rational& rightObj) const {
+    std::cout << "BEGAN subtraction_operator" << std::endl;
     int numLeft = this->numerator;
     int numRight = rightObj.numerator;
     int denLeft = this->denominator;
@@ -98,11 +101,13 @@ Rational Rational::operator-(const Rational& rightObj) const {
     numLeft /= gcd;
     denLeft /= gcd;
 
+    std::cout << "COMPLETE subtraction_operator" << std::endl;
     return {numLeft,denLeft};
 
 }
 
 Rational Rational::operator*(const Rational& rightObj) const {
+    std::cout << "BEGAN multiplication_operator" << std::endl;
     int numTemp = this->numerator;
     int denTemp = this->denominator;
 
@@ -113,10 +118,12 @@ Rational Rational::operator*(const Rational& rightObj) const {
     numTemp /= gcd;
     denTemp /= gcd;
 
+    std::cout << "COMPLETE multiplication_operator" << std::endl;
     return {numTemp, denTemp};
 }
 
 Rational Rational::operator/(const Rational& rightObj) const {
+    std::cout << "BEGAN division_operator" << std::endl;
     int numTemp = this->numerator;
     int denTemp = this->denominator;
 
@@ -127,56 +134,31 @@ Rational Rational::operator/(const Rational& rightObj) const {
     numTemp /= gcd;
     denTemp /= gcd;
 
+    std::cout << "COMPLETE division_operator" << std::endl;
     return {numTemp, denTemp};
 }
 
-bool Rational::operator<(Rational &rightObj) {
-    if (this->denominator != rightObj.denominator) {
-        this->numerator *= rightObj.denominator;
-        rightObj.numerator *= this->denominator;
-        this->denominator *= rightObj.denominator;
-        rightObj.denominator = this->denominator;
-    }
-    const bool isLesser = this->numerator < rightObj.numerator;
-
-    int gcd = std::__gcd(this->numerator,this->denominator);
-    this->numerator /= gcd;
-    this->denominator /= gcd;
-
-    gcd = std::__gcd(rightObj.numerator, rightObj.denominator);
-    rightObj.numerator /= gcd;
-    rightObj.denominator /= gcd;
-
-    return isLesser;
+bool Rational::operator<(const Rational &rightObj) const {
+    std::cout << "less_than_operator" << std::endl;
+    if (this->numerator / this-> denominator < rightObj.numerator / rightObj.denominator) return true;
+    return false;
 }
 
-bool Rational::operator>(Rational &rightObj) {
-    if (this->denominator != rightObj.denominator) {
-        this->numerator *= rightObj.denominator;
-        rightObj.numerator *= this->denominator;
-        this->denominator *= rightObj.denominator;
-        rightObj.denominator = this->denominator;
-    }
-    const bool isGreater = this->numerator > rightObj.numerator;
-
-    int gcd = std::__gcd(this->numerator,this->denominator);
-    this->numerator /= gcd;
-    this->denominator /= gcd;
-
-    gcd = std::__gcd(rightObj.numerator, rightObj.denominator);
-    rightObj.numerator /= gcd;
-    rightObj.denominator /= gcd;
-
-    return isGreater;
+bool Rational::operator>(const Rational &rightObj) const {
+    std::cout << "greater_that_operator" << std::endl;
+    if (this->numerator / this-> denominator > rightObj.numerator / rightObj.denominator) return true;
+    return false;
 }
 
 bool Rational::operator==(const Rational &rightObj) const {
+    std::cout << "equivalence_operator" << std::endl;
     if (this->numerator * rightObj.denominator == this->denominator * rightObj.numerator) return true;
     return false;
 }
 
 const std::ostream &operator<<(std::ostream &output, const Rational &num)
 {
+    std::cout << "ostream_operator" << std::endl;
     output << num.numerator << " / " << num.denominator;
-    return output; //returns an ostream obj
+    return output;
 }

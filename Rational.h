@@ -20,11 +20,8 @@ public:
     Rational operator*(const Rational& rightObj) const;
     Rational operator/(const Rational& rightObj) const;
 
-    Rational& operator=(Rational& rightObj);
-    Rational& operator+=(Rational& rightObj);
-
-    bool operator<(Rational& rightObj);
-    bool operator>(Rational& rightObj);
+    bool operator<(const Rational& rightObj) const;
+    bool operator>(const Rational& rightObj) const;
     bool operator==(const Rational& rightObj) const;
 
     const friend std::ostream& operator<<(std::ostream& output, const Rational& num);
