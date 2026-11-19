@@ -11,21 +11,21 @@ class Rational {
     int denominator;
 public:
     Rational();
-    Rational(int wholeNum);
+    explicit Rational(int num);
     Rational(int num, int den);
-    Rational(const std::string& str);
+    explicit Rational(const std::string& str);
 
-    Rational operator+(Rational &rightObj);
-    Rational operator-(Rational &rightObj);
-    Rational operator*(Rational &rightObj);
-    Rational operator/(Rational &rightObj);
+    Rational operator+(const Rational& rightObj) const;
+    Rational operator-(const Rational& rightObj) const;
+    Rational operator*(const Rational& rightObj) const;
+    Rational operator/(const Rational& rightObj) const;
 
-    Rational& operator=(Rational &rightObj);
-    Rational& operator+=(Rational &rightObj);
+    Rational& operator=(Rational& rightObj);
+    Rational& operator+=(Rational& rightObj);
 
-    bool operator<(Rational &rightObj);
-    bool operator>(Rational &rightObj);
-    bool operator==(Rational &rightObj);
+    bool operator<(Rational& rightObj);
+    bool operator>(Rational& rightObj);
+    bool operator==(Rational& rightObj);
 
     friend std::ostream& operator<<(std::ostream& output, Rational& num);
 
