@@ -25,12 +25,11 @@ public:
 
     bool operator<(Rational& rightObj);
     bool operator>(Rational& rightObj);
-    bool operator==(Rational& rightObj);
+    bool operator==(const Rational& rightObj) const;
 
-    friend std::ostream& operator<<(std::ostream& output, Rational& num);
+    const friend std::ostream& operator<<(std::ostream& output, const Rational& num);
 
     static bool validateString(const std::string& str);
-
 };
 
 

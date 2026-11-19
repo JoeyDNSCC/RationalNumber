@@ -1,6 +1,13 @@
 #include <iostream>
 
+using namespace std;
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << "Welcome to Fractions 101" << endl;
+    cout << "Please enter a fraction:" << endl;
+
+    string firstInput;
+    getline(cin, firstInput);
+
+
     return 0;
 }
