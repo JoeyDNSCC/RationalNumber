@@ -27,6 +27,14 @@ Rational::Rational(const int num, const int den)
         throw std::runtime_error("ERROR: cannot divide by 0");
     }
 
+    const int gcd = std::gcd(numerator,denominator);
+    numerator /= gcd;
+    denominator /= gcd;
+    if (denominator < 0) {
+        numerator = -numerator;
+        denominator = -denominator;
+    }
+
     std::cout << "COMPLETE two_arg_constructor" << std::endl;
 }
 
@@ -47,6 +55,14 @@ Rational::Rational(const std::string& str) {
     if (std::stoi(den) != 0) {
         denominator = std::stoi(den);
     } else throw std::runtime_error("ERROR: cannot divide by 0");
+
+    const int gcd = std::gcd(numerator,denominator);
+    numerator /= gcd;
+    denominator /= gcd;
+    if (denominator < 0) {
+        numerator = -numerator;
+        denominator = -denominator;
+    }
 
     std::cout << "COMPLETE string_constructor" << std::endl;
 }
@@ -177,11 +193,14 @@ bool Rational::operator==(const Rational &rightObj) const {
     return false;
 }
 
-const std::ostream &operator<<(std::ostream &output, const Rational &num)
-{
+const std::ostream &operator<<(std::ostream &output, const Rational &num) {
     const int wholeNum = num.numerator / num.denominator;
     const int remainder = num.numerator % num.denominator;
-    output << wholeNum << "+" << remainder << "/" << num.denominator;
+
+    if (remainder == 0) output << wholeNum;
+    else if (wholeNum == 0) output << num.numerator << "/" << num.denominator;
+    else output << wholeNum << "+" << remainder << "/" << num.denominator;
+
     return output;
 }
 

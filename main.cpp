@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     bool endProgram = false;
     while (!endProgram) {
-        cout << "\n\nWelcome to Fractions 101" << endl;
+        cout << "\n\nWelcome to Fractions 101\n" << endl;
 
         string firstInput;
         bool isValid;
@@ -15,7 +15,7 @@ int main() {
         Rational fraction1;
 
         do {
-            cout << "\nPlease enter the first fraction:" << endl;
+            cout << "Please enter the first fraction:" << endl;
             getline(cin, firstInput);
 
             isValid = Rational::validateString(firstInput);
@@ -27,18 +27,19 @@ int main() {
                     isCreated = true;
                 }
                 catch (runtime_error&) {
-                    cout << "cannot divide by 0" << endl;
+                    cout << "\ncannot divide by 0" << endl;
                     isCreated = false;
                 }
                 catch (out_of_range&) {
-                    cout << "thats a whole lotta number for this little program" << endl;
+                    cout << "\nthat's a whole lotta number for this little program" << endl;
                     isCreated = false;
                 }
                 catch (exception&) {
+                    cout << "\nyou found a new error!" << endl;
                     isCreated = false;
                 }
             } else {
-                cout << "Invalid input, must be a non-decimal rational number" << endl;
+                cout << "\nInvalid input, must be a non-decimal rational number" << endl;
             }
 
         } while (!isValid || !isCreated);
@@ -58,16 +59,19 @@ int main() {
                     isCreated = true;
                 }
                 catch (runtime_error&) {
-                    cout << "cannot divide by 0" << endl;
+                    cout << "\ncannot divide by 0" << endl;
                     isCreated = false;
                 }
                 catch (out_of_range&) {
-                    cout << "that's a whole lotta number for this little program" << endl;
+                    cout << "\nthat's a whole lotta number for this little program" << endl;
                     isCreated = false;
                 }
                 catch (exception&) {
+                    cout << "you found a new error!" << endl;
                     isCreated = false;
                 }
+            } else {
+                cout << "\nInvalid input, must be a non-decimal rational number" << endl;
             }
 
         } while (!isValid || !isCreated);
