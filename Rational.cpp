@@ -3,8 +3,8 @@
 #include <regex>
 #include <stdexcept>
 #include <iostream>
-
-
+#include <sstream>
+#include <numeric>
 
 
 Rational::Rational()
@@ -21,7 +21,7 @@ Rational::Rational(const int num, const int den)
     :numerator(num){
     std::cout << "BEGAN two_arg_constructor" << std::endl;
 
-    if (den == 0) {
+    if (den != 0) {
         this->denominator = den;
     } else {
         throw std::runtime_error("ERROR: cannot divide by 0");
@@ -39,10 +39,12 @@ Rational::Rational(const std::string& str) {
     std::string den = "1"; //incase not provided
 
     std::getline(ss, num, '/'); //grab everything until '/'
-    std::getline(ss, den);  // grab the rest
+    if (ss.peek() != EOF) {
+        std::getline(ss, den);  // grab the rest
+    }
 
     numerator = std::stoi(num);
-    if (den != "0") {
+    if (std::stoi(den) != 0) {
         denominator = std::stoi(den);
     } else throw std::runtime_error("ERROR: cannot divide by 0");
 
@@ -53,7 +55,7 @@ bool Rational::validateString(const std::string& str) {
     std::cout << "BEGAN validate_string" << std::endl;
 
     // allowed characters: -/1234567890
-    const std::regex pattern("[-/0-9]");
+    const std::regex pattern(R"(-?[0-9]+(/-?[0-9]+)?)");
 
     std::cout << "COMPLETE validate_string" << std::endl;
     return std::regex_match(str, pattern);
@@ -74,9 +76,13 @@ Rational Rational::operator+(const Rational& rightObj) const {
     }
     numLeft += numRight;
 
-    const int gcd = std::__gcd(numLeft,denLeft);
+    const int gcd = std::gcd(numLeft,denLeft);
     numLeft /= gcd;
     denLeft /= gcd;
+    if (denLeft < 0) {
+        numLeft = -numLeft;
+        denLeft = -denLeft;
+    }
 
     std::cout << "COMPLETE addition_operator" << std::endl;
     return {numLeft,denLeft};
@@ -97,10 +103,13 @@ Rational Rational::operator-(const Rational& rightObj) const {
     }
     numLeft -= numRight;
 
-    const int gcd = std::__gcd(numLeft,denLeft);
+    const int gcd = std::gcd(numLeft,denLeft);
     numLeft /= gcd;
     denLeft /= gcd;
-
+    if (denLeft < 0) {
+        numLeft = -numLeft;
+        denLeft = -denLeft;
+    }
     std::cout << "COMPLETE subtraction_operator" << std::endl;
     return {numLeft,denLeft};
 
@@ -114,9 +123,13 @@ Rational Rational::operator*(const Rational& rightObj) const {
     numTemp *= rightObj.numerator;
     denTemp *= rightObj.denominator;
 
-    const int gcd = std::__gcd(numTemp, denTemp);
+    const int gcd = std::gcd(numTemp, denTemp);
     numTemp /= gcd;
     denTemp /= gcd;
+    if (denTemp < 0) {
+        numTemp = -numTemp;
+        denTemp = -denTemp;
+    }
 
     std::cout << "COMPLETE multiplication_operator" << std::endl;
     return {numTemp, denTemp};
@@ -124,15 +137,24 @@ Rational Rational::operator*(const Rational& rightObj) const {
 
 Rational Rational::operator/(const Rational& rightObj) const {
     std::cout << "BEGAN division_operator" << std::endl;
+
+    if (rightObj.numerator == 0) {
+        throw std::runtime_error("ERROR: cannot divide by zero");
+    }
+
     int numTemp = this->numerator;
     int denTemp = this->denominator;
 
     numTemp *= rightObj.denominator;
     denTemp *= rightObj.numerator;
 
-    const int gcd = std::__gcd(numTemp, denTemp);
+    const int gcd = std::gcd(numTemp, denTemp);
     numTemp /= gcd;
     denTemp /= gcd;
+    if (denTemp < 0) {
+        numTemp = -numTemp;
+        denTemp = -denTemp;
+    }
 
     std::cout << "COMPLETE division_operator" << std::endl;
     return {numTemp, denTemp};
@@ -140,14 +162,13 @@ Rational Rational::operator/(const Rational& rightObj) const {
 
 bool Rational::operator<(const Rational &rightObj) const {
     std::cout << "less_than_operator" << std::endl;
-    if (this->numerator / this-> denominator < rightObj.numerator / rightObj.denominator) return true;
-    return false;
+    return static_cast<double>(this->numerator) / this-> denominator < static_cast<double>(rightObj.numerator) / rightObj.denominator;
 }
 
 bool Rational::operator>(const Rational &rightObj) const {
     std::cout << "greater_that_operator" << std::endl;
-    if (this->numerator / this-> denominator > rightObj.numerator / rightObj.denominator) return true;
-    return false;
+    return static_cast<double>(this->numerator) / this-> denominator > static_cast<double>(rightObj.numerator) / rightObj.denominator;
+
 }
 
 bool Rational::operator==(const Rational &rightObj) const {
@@ -158,7 +179,12 @@ bool Rational::operator==(const Rational &rightObj) const {
 
 const std::ostream &operator<<(std::ostream &output, const Rational &num)
 {
-    std::cout << "ostream_operator" << std::endl;
-    output << num.numerator << " / " << num.denominator;
+    const int wholeNum = num.numerator / num.denominator;
+    const int remainder = num.numerator % num.denominator;
+    output << wholeNum << "+" << remainder << "/" << num.denominator;
     return output;
+}
+
+int Rational::Numerator() const {
+    return numerator;
 }

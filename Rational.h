@@ -1,9 +1,6 @@
-//
-// Created by wolph on 11/2/2026.
-//
-
 #ifndef RATIONAL_RATIONALNUMBER_H
 #define RATIONAL_RATIONALNUMBER_H
+
 #include <string>
 
 class Rational {
@@ -27,6 +24,8 @@ public:
     const friend std::ostream& operator<<(std::ostream& output, const Rational& num);
 
     static bool validateString(const std::string& str);
+
+    int Numerator() const;
 };
 
 
